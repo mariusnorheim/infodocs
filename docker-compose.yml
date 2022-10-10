@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  postgres:
+    image: "postgres:14"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: infodocs
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    ports:
+      - "0.0.0.0:3000:3000"
+volumes:
+  db-data:
